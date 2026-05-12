@@ -15,7 +15,6 @@ import {
   setHours,
   setMinutes,
   startOfDay,
-  startOfMonth,
   startOfWeek,
 } from "date-fns";
 
@@ -196,7 +195,7 @@ async function upsertEvents() {
       title: sundayTypes[i] === "quorum_meeting" ? "Quorum Meeting" : "Sunday School",
       type: sundayTypes[i],
       start_at: formatISO(d),
-      end_at: formatISO(addDays(d, 0)),
+      end_at: formatISO(setMinutes(setHours(d, 12), 0)),
       location: "Chapel",
     })),
     {
