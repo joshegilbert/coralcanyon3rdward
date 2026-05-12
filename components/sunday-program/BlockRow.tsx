@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -52,6 +52,10 @@ const BLOCK_TYPE_OPTIONS: { value: ProgramBlockType; label: string }[] = [
   { value: "musical_number", label: "Musical Number" },
   { value: "custom", label: "Custom" },
 ];
+
+const BLOCK_TYPE_LABELS: Record<ProgramBlockType, string> = Object.fromEntries(
+  BLOCK_TYPE_OPTIONS.map((o) => [o.value, o.label]),
+) as Record<ProgramBlockType, string>;
 
 const NO_ASSIGNEE = "__none__";
 
@@ -135,6 +139,11 @@ export function BlockRow({
 
   const youth = assignableProfiles.filter((p) => p.role === "youth");
   const adults = assignableProfiles.filter((p) => p.role === "adult_leader");
+  const profilesById = useMemo(() => {
+    const m = new Map<string, Assignable>();
+    for (const p of assignableProfiles) m.set(p.id, p);
+    return m;
+  }, [assignableProfiles]);
 
   return (
     <li className="rounded-lg border border-border bg-card p-3">
@@ -160,7 +169,13 @@ export function BlockRow({
               onValueChange={(v) => v && commitType(v as ProgramBlockType)}
             >
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue>
+                  {(value) =>
+                    value
+                      ? (BLOCK_TYPE_LABELS[value as ProgramBlockType] ?? value)
+                      : ""
+                  }
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {BLOCK_TYPE_OPTIONS.map((opt) => (
@@ -178,7 +193,31 @@ export function BlockRow({
               onValueChange={(v) => commitAssignee(v ?? NO_ASSIGNEE)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Unassigned" />
+                <SelectValue placeholder="Unassigned">
+                  {(value) => {
+                    if (!value || value === NO_ASSIGNEE) {
+                      return (
+                        <span className="text-muted-foreground">Unassigned</span>
+                      );
+                    }
+                    const p = profilesById.get(String(value));
+                    if (!p) {
+                      return (
+                        <span className="text-muted-foreground">Unassigned</span>
+                      );
+                    }
+                    const fullName = `${p.first_name ?? ""} ${p.last_name ?? ""}`.trim() || "(unnamed)";
+                    return (
+                      <span className="inline-flex items-center gap-1.5">
+                        <UserRound className="h-3.5 w-3.5 opacity-70" />
+                        <span className="truncate">{fullName}</span>
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                          {p.role === "adult_leader" ? "Adult" : "Youth"}
+                        </span>
+                      </span>
+                    );
+                  }}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={NO_ASSIGNEE}>

@@ -31,6 +31,10 @@ const ROLE_OPTIONS: { value: Role; label: string }[] = [
   { value: "general", label: "Parent / Member" },
 ];
 
+const ROLE_LABELS: Record<Role, string> = Object.fromEntries(
+  ROLE_OPTIONS.map((o) => [o.value, o.label]),
+) as Record<Role, string>;
+
 interface EditProfileSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -116,7 +120,11 @@ export function EditProfileSheet({
               <Label>Role</Label>
               <Select value={role} onValueChange={(v) => setRole(v as Role)}>
                 <SelectTrigger className="w-full">
-                  <SelectValue />
+                  <SelectValue>
+                    {(value) =>
+                      value ? (ROLE_LABELS[value as Role] ?? value) : ""
+                    }
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {ROLE_OPTIONS.map((opt) => (

@@ -26,6 +26,10 @@ const BLOCK_TYPE_OPTIONS: { value: ProgramBlockType; label: string }[] = [
   { value: "custom", label: "Custom" },
 ];
 
+const BLOCK_TYPE_LABELS: Record<ProgramBlockType, string> = Object.fromEntries(
+  BLOCK_TYPE_OPTIONS.map((o) => [o.value, o.label]),
+) as Record<ProgramBlockType, string>;
+
 const LABEL_FOR: Record<ProgramBlockType, string> = {
   presiding: "Presiding",
   conducting: "Conducting",
@@ -57,7 +61,13 @@ export function AddBlockButton({ programId }: AddBlockButtonProps) {
     <div className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-muted/30 p-3">
       <Select value={type} onValueChange={(v) => v && setType(v as ProgramBlockType)}>
         <SelectTrigger className="w-full sm:w-60">
-          <SelectValue />
+          <SelectValue>
+            {(value) =>
+              value
+                ? (BLOCK_TYPE_LABELS[value as ProgramBlockType] ?? value)
+                : ""
+            }
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           {BLOCK_TYPE_OPTIONS.map((opt) => (

@@ -119,7 +119,13 @@ export function ManageCallingsSheet({
               <div className="mt-2 flex items-center gap-2">
                 <Select value={selected} onValueChange={(v) => setSelected(v ?? "")}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose a calling..." />
+                    <SelectValue placeholder="Choose a calling...">
+                      {(value) => {
+                        if (!value) return "Choose a calling...";
+                        const c = available.find((x) => x.id === value);
+                        return c?.name ?? "Choose a calling...";
+                      }}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {available.map((c) => (

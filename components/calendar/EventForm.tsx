@@ -46,6 +46,10 @@ const EVENT_TYPE_OPTIONS: { value: EventType; label: string }[] = [
   { value: "other", label: "Other" },
 ];
 
+const EVENT_TYPE_LABELS: Record<EventType, string> = Object.fromEntries(
+  EVENT_TYPE_OPTIONS.map((o) => [o.value, o.label]),
+) as Record<EventType, string>;
+
 const DEFAULT_REQUIRES_RSVP_BY_TYPE: Record<EventType, boolean> = {
   sunday_school: false,
   quorum_meeting: true,
@@ -138,7 +142,13 @@ export function EventForm({ mode, event, defaultDate }: EventFormProps) {
           <Label>Type</Label>
           <Select value={type} onValueChange={(v) => handleTypeChange(v as EventType)}>
             <SelectTrigger className="w-full">
-              <SelectValue />
+              <SelectValue>
+                {(value) =>
+                  value
+                    ? (EVENT_TYPE_LABELS[value as EventType] ?? value)
+                    : ""
+                }
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {EVENT_TYPE_OPTIONS.map((opt) => (
