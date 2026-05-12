@@ -30,11 +30,9 @@ export async function setLeaderRsvp(formData: FormData): Promise<void> {
     status: parsed.data.status,
   };
 
-  // Type cast: Supabase upsert infers `never[]` against our hand-written
-  // Database type. Runtime is correct; remove after `supabase gen types`.
   await supabase
     .from("leader_rsvps")
-    .upsert(values as never, { onConflict: "event_id,leader_id" });
+    .upsert(values, { onConflict: "event_id,leader_id" });
 
   revalidatePath("/");
 }

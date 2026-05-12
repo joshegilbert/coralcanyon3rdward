@@ -1,6 +1,6 @@
 import "server-only";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { addDays, startOfDay, startOfMonth } from "date-fns";
+import { addDays, startOfDay } from "date-fns";
 import type { Database } from "@/lib/types/database";
 import type {
   Announcement,
@@ -228,17 +228,19 @@ export async function getDashboardData(
   const callingsByProfile = await getActiveYouthCallings(supabase, youthIds);
 
   const currentYear = now.getFullYear();
-  const currentMonth = startOfMonth(now).getMonth();
+  const currentMonth = now.getMonth();
   const birthdaysThisMonth: BirthdayItem[] = youthProfiles
     .filter((p) => p.birth_date)
     .map((p) => {
-      const b = new Date(p.birth_date as string);
+      // birth_date is "YYYY-MM-DD" (date-only, no time); parse manually to
+      // avoid the new Date("YYYY-MM-DD") UTC-vs-local timezone trap.
+      const [y, m, d] = (p.birth_date as string).split("-").map(Number);
       return {
         profile: p,
         callings: callingsByProfile.get(p.id) ?? [],
-        day: b.getDate(),
-        month: b.getMonth(),
-        birthYear: b.getFullYear(),
+        day: d,
+        month: m - 1,
+        birthYear: y,
       };
     })
     .filter((item) => item.month === currentMonth)

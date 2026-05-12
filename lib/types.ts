@@ -1,15 +1,9 @@
-import type {
-  AppRole,
-  EventTypeEnum,
-  LeaderRsvpStatusEnum,
-  ProgramBlockTypeEnum,
-  Tables,
-} from "@/lib/types/database";
+import type { Database, Tables } from "@/lib/types/database";
 
-export type Role = AppRole;
-export type EventType = EventTypeEnum;
-export type LeaderRsvpStatus = LeaderRsvpStatusEnum;
-export type ProgramBlockType = ProgramBlockTypeEnum;
+export type Role = Database["public"]["Enums"]["app_role"];
+export type EventType = Database["public"]["Enums"]["event_type"];
+export type LeaderRsvpStatus = Database["public"]["Enums"]["leader_rsvp_status"];
+export type ProgramBlockType = Database["public"]["Enums"]["program_block_type"];
 
 export type Profile = Tables<"profiles">;
 export type Calling = Tables<"callings">;
