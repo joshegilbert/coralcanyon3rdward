@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { getDirectory } from "@/lib/queries/people";
 import { PeopleDirectory } from "@/components/people/PeopleDirectory";
 
-export const metadata = { title: "People - Coral Canyon 3rd Ward" };
+export const metadata = { title: "People - Stone Ridge Ward" };
 
 export default async function PeoplePage() {
   const { user } = await requireAdultLeader();

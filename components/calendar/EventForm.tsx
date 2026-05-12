@@ -241,7 +241,10 @@ export function EventForm({ mode, event, defaultDate }: EventFormProps) {
         />
       </div>
 
-      <div className="flex items-center justify-between gap-3 pt-2">
+      <div
+        className="sticky -mx-4 flex items-center justify-between gap-3 border-t border-border bg-background/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none"
+        style={{ bottom: "calc(4rem + env(safe-area-inset-bottom))" }}
+      >
         <div>
           {mode === "edit" ? (
             <AlertDialog>

@@ -268,20 +268,22 @@ export function BlockRow({
           <Button
             type="button"
             variant="ghost"
-            size="icon-sm"
+            size="icon"
             onClick={onMoveUp}
             disabled={pending || index === 0}
             aria-label="Move up"
+            className="h-10 w-10 sm:h-7 sm:w-7"
           >
             <ArrowUp className="h-4 w-4" />
           </Button>
           <Button
             type="button"
             variant="ghost"
-            size="icon-sm"
+            size="icon"
             onClick={onMoveDown}
             disabled={pending || index === total - 1}
             aria-label="Move down"
+            className="h-10 w-10 sm:h-7 sm:w-7"
           >
             <ArrowDown className="h-4 w-4" />
           </Button>
@@ -291,10 +293,10 @@ export function BlockRow({
                 <Button
                   type="button"
                   variant="ghost"
-                  size="icon-sm"
+                  size="icon"
                   aria-label="Delete"
                   className={cn(
-                    "text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/30",
+                    "h-10 w-10 sm:h-7 sm:w-7 text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/30",
                   )}
                 />
               }

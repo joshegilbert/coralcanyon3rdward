@@ -9,7 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { EventRow } from "@/lib/types";
 
-export const metadata = { title: "Edit event - Coral Canyon 3rd Ward" };
+export const metadata = { title: "Edit event - Stone Ridge Ward" };
 
 export default async function EditEventPage({
   params,

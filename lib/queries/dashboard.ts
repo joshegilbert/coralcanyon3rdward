@@ -13,6 +13,14 @@ import { classifySunday, upcomingSundays } from "@/lib/sunday";
 
 type Supabase = SupabaseClient<Database>;
 
+export interface NextSundayProgramSummary {
+  id: string;
+  theme: string | null;
+  presiding: string | null;
+  conducting: string | null;
+  teacher: { name: string; role: Profile["role"] } | null;
+}
+
 export interface NextSundayData {
   date: Date;
   type: "sunday_school" | "quorum_meeting";
@@ -21,6 +29,10 @@ export interface NextSundayData {
   attendingCount: number;
   totalLeaders: number;
   rsvpRequired: boolean;
+  /** Current user's RSVP for next Sunday, if any. */
+  myRsvpStatus: "attending" | "unavailable" | "undecided";
+  /** Linked Sunday program summary for the hero card CTA. */
+  program: NextSundayProgramSummary | null;
 }
 
 export interface UpcomingSundayData {
@@ -216,6 +228,64 @@ export async function getDashboardData(
   const nextSundayRsvps = next.event
     ? (rsvpByEvent.get(next.event.id) ?? [])
     : [];
+  const myNextRsvp = next.event
+    ? myRsvps.find((r) => r.event_id === next.event!.id)
+    : undefined;
+
+  let nextProgram: NextSundayProgramSummary | null = null;
+  if (next.event) {
+    type ProgramJoinedRow = {
+      id: string;
+      theme: string | null;
+      blocks:
+        | {
+            type: string;
+            label: string;
+            assignee:
+              | Pick<Profile, "first_name" | "last_name" | "role">
+              | Pick<Profile, "first_name" | "last_name" | "role">[]
+              | null;
+          }[]
+        | null;
+    };
+    const { data } = await supabase
+      .from("sunday_programs")
+      .select(
+        "id, theme, blocks:program_blocks(type, label, assignee:profiles(first_name, last_name, role))",
+      )
+      .eq("event_id", next.event.id)
+      .maybeSingle();
+    const row = data as unknown as ProgramJoinedRow | null;
+    if (row) {
+      const labelOf = (k: string) => {
+        const b = (row.blocks ?? []).find((x) => x.type === k);
+        if (!b) return null;
+        const a = Array.isArray(b.assignee) ? b.assignee[0] : b.assignee;
+        if (!a) return null;
+        return `${a.first_name ?? ""} ${a.last_name ?? ""}`.trim() || null;
+      };
+      const teacherBlock = (row.blocks ?? []).find((x) => x.type === "lesson");
+      const teacherA = teacherBlock
+        ? Array.isArray(teacherBlock.assignee)
+          ? teacherBlock.assignee[0]
+          : teacherBlock.assignee
+        : null;
+      nextProgram = {
+        id: row.id,
+        theme: row.theme,
+        presiding: labelOf("presiding"),
+        conducting: labelOf("conducting"),
+        teacher: teacherA
+          ? {
+              name:
+                `${teacherA.first_name ?? ""} ${teacherA.last_name ?? ""}`.trim() ||
+                "(unnamed)",
+              role: teacherA.role,
+            }
+          : null,
+      };
+    }
+  }
 
   const nextSunday: NextSundayData = {
     date: next.date,
@@ -225,6 +295,8 @@ export async function getDashboardData(
     attendingCount: next.attendingCount,
     totalLeaders: allLeaders.length,
     rsvpRequired: next.event?.rsvp_required ?? false,
+    myRsvpStatus: myNextRsvp?.status ?? "undecided",
+    program: nextProgram,
   };
 
   // Birthdays this month

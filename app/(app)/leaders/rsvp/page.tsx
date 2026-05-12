@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { getLeaderRsvpBoard } from "@/lib/queries/leader-rsvp";
 import { LeaderRsvpRow } from "@/components/leaders/LeaderRsvpRow";
 
-export const metadata = { title: "Leader RSVP - Coral Canyon 3rd Ward" };
+export const metadata = { title: "Leader RSVP - Stone Ridge Ward" };
 
 const MONTH_FORMATTER = new Intl.DateTimeFormat("en-US", {
   month: "long",
@@ -27,17 +27,19 @@ export default async function LeaderRsvpPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-3xl space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Leader RSVP</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold tracking-tight sm:text-2xl">
+            Leader RSVP
+          </h1>
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
             Private to adult leaders. Every event that needs two-deep coverage
             in the next 8 weeks. Red means fewer than 2 attending.
           </p>
         </div>
-        <div className="rounded-md border border-border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
-          {board.totalLeaders} {board.totalLeaders === 1 ? "leader" : "leaders"} on the roster
+        <div className="rounded-md border border-border bg-muted/40 px-3 py-1.5 text-xs text-muted-foreground">
+          {board.totalLeaders} {board.totalLeaders === 1 ? "leader" : "leaders"}
         </div>
       </div>
 

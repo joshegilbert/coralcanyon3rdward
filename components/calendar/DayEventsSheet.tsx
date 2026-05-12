@@ -4,11 +4,11 @@ import { format, isSameDay } from "date-fns";
 import { CalendarPlus, MapPin } from "lucide-react";
 import {
   Sheet,
-  SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { ResponsiveSheetContent } from "@/components/ui/responsive-sheet";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
@@ -52,7 +52,7 @@ export function DayEventsSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md">
+      <ResponsiveSheetContent>
         <SheetHeader>
           <SheetTitle className="text-lg">
             {format(date, "EEEE, MMMM d")}
@@ -66,7 +66,7 @@ export function DayEventsSheet({
           </SheetDescription>
         </SheetHeader>
 
-        <div className="space-y-2 overflow-y-auto px-4 pb-4">
+        <div className="space-y-2 px-4 pb-4">
           {dayEvents.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border bg-muted/30 p-6 text-center text-sm text-muted-foreground">
               <CalendarPlus className="mx-auto mb-2 h-5 w-5 opacity-60" />
@@ -82,7 +82,7 @@ export function DayEventsSheet({
                   type="button"
                   onClick={() => onSelectEvent(e.id)}
                   className={cn(
-                    "block w-full rounded-lg border border-border bg-card p-3 text-left transition-colors hover:bg-accent cursor-pointer",
+                    "block w-full rounded-lg border border-border bg-card p-3 text-left transition-colors hover:bg-accent active:bg-accent cursor-pointer min-h-[3.5rem]",
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -112,7 +112,7 @@ export function DayEventsSheet({
             })
           )}
         </div>
-      </SheetContent>
+      </ResponsiveSheetContent>
     </Sheet>
   );
 }

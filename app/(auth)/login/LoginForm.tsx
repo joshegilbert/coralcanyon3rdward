@@ -36,9 +36,9 @@ export function LoginForm() {
     <Card className="shadow-lg">
       <CardHeader className="space-y-1">
         <p className="text-xs font-medium uppercase tracking-widest text-amber-700 dark:text-amber-400">
-          Coral Canyon 3rd Ward
+          Stone Ridge Ward
         </p>
-        <CardTitle className="text-2xl">Deacons Quorum Dashboard</CardTitle>
+        <CardTitle className="text-2xl">Young Men</CardTitle>
         <CardDescription>
           Sign in to see this week&apos;s schedule, assignments, and lesson.
         </CardDescription>

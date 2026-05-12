@@ -66,35 +66,41 @@ export default async function SundayProgramPresentPage({
     session.profile?.role === "youth";
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-gradient-to-br from-amber-50 via-white to-sky-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
-      <div className="mx-auto max-w-4xl px-6 py-12 lg:px-12 lg:py-20">
-        <div className="mb-10 flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-amber-700 dark:text-amber-400">
-              Coral Canyon 3rd Ward
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-gradient-to-br from-amber-50 via-white to-sky-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950"
+      style={{
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
+    >
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-10 lg:px-12 lg:py-20">
+        <div className="mb-6 flex items-start justify-between gap-4 sm:mb-10">
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-amber-700 dark:text-amber-400 sm:text-xs">
+              Stone Ridge Ward
             </p>
-            <h1 className="mt-1 text-4xl font-bold tracking-tight lg:text-5xl">
+            <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               {event?.title}
             </h1>
             {eventDate ? (
-              <p className="mt-1 text-lg text-muted-foreground">
+              <p className="mt-1 text-sm text-muted-foreground sm:text-lg">
                 {format(eventDate, "EEEE, MMMM d")}
               </p>
             ) : null}
             {program.theme ? (
-              <p className="mt-3 text-xl font-medium text-amber-700 dark:text-amber-400">
+              <p className="mt-2 text-base font-medium text-amber-700 dark:text-amber-400 sm:mt-3 sm:text-xl">
                 {program.theme}
               </p>
             ) : null}
             {canEdit ? (
-              <p className="mt-3 text-xs text-muted-foreground">
+              <p className="mt-2 text-xs text-muted-foreground sm:mt-3">
                 Tap a block to mark it complete.
               </p>
             ) : null}
           </div>
           <Link
             href={`/sunday-program/${id}`}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-card text-foreground shadow-sm ring-1 ring-border hover:bg-muted"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-card text-foreground shadow-sm ring-1 ring-border hover:bg-muted"
             aria-label="Close present view"
           >
             <X className="h-5 w-5" />

@@ -6,7 +6,7 @@ import { EventForm } from "@/components/calendar/EventForm";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export const metadata = { title: "New event - Coral Canyon 3rd Ward" };
+export const metadata = { title: "New event - Stone Ridge Ward" };
 
 export default async function NewEventPage({
   searchParams,

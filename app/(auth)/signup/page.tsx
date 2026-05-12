@@ -1,7 +1,7 @@
 import { SignupForm } from "./SignupForm";
 
 export const metadata = {
-  title: "Sign up - Coral Canyon 3rd Ward",
+  title: "Sign up - Stone Ridge Ward",
 };
 
 export default function SignupPage() {

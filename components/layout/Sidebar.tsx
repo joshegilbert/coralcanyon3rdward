@@ -39,9 +39,9 @@ export function Sidebar({ role }: { role: Role }) {
         </div>
         <div className="flex flex-col leading-tight">
           <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Coral Canyon
+            Stone Ridge Ward
           </span>
-          <span className="text-sm font-semibold">3rd Ward Deacons</span>
+          <span className="text-sm font-semibold">Young Men</span>
         </div>
       </div>
       <nav className="flex-1 space-y-1 p-3">

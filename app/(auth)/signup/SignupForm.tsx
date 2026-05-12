@@ -24,7 +24,7 @@ export function SignupForm() {
     <Card className="shadow-lg">
       <CardHeader className="space-y-1">
         <p className="text-xs font-medium uppercase tracking-widest text-amber-700 dark:text-amber-400">
-          Coral Canyon 3rd Ward
+          Stone Ridge Ward
         </p>
         <CardTitle className="text-2xl">Create your account</CardTitle>
         <CardDescription>

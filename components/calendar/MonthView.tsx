@@ -73,7 +73,7 @@ export function MonthView({
                       }
                     }}
                     className={cn(
-                      "group/cell relative flex min-h-32 flex-col gap-0.5 border-r border-border px-1.5 pt-1 pb-1 text-left transition-colors last:border-r-0",
+                      "group/cell relative flex min-h-20 flex-col gap-0.5 border-r border-border px-1 pt-1 pb-1 text-left transition-colors last:border-r-0 md:min-h-32 md:px-1.5",
                       !inMonth && "bg-muted/30 text-muted-foreground",
                       sundayKind === "sunday_school" &&
                         inMonth &&
@@ -81,7 +81,7 @@ export function MonthView({
                       sundayKind === "quorum_meeting" &&
                         inMonth &&
                         "bg-sky-50/60 dark:bg-sky-950/20",
-                      "hover:bg-accent/40 cursor-pointer",
+                      "hover:bg-accent/40 active:bg-accent/60 cursor-pointer",
                     )}
                   >
                     <div className="flex items-baseline justify-between gap-1">
@@ -97,7 +97,7 @@ export function MonthView({
                       {sundayKind ? (
                         <span
                           className={cn(
-                            "text-[9px] font-medium uppercase tracking-wide",
+                            "hidden text-[9px] font-medium uppercase tracking-wide sm:inline",
                             sundayKind === "sunday_school"
                               ? "text-emerald-700 dark:text-emerald-300"
                               : "text-sky-700 dark:text-sky-300",

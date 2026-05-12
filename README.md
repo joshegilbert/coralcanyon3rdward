@@ -1,6 +1,6 @@
-# Coral Canyon 3rd Ward Deacons Quorum Dashboard
+# Stone Ridge Ward Young Men Dashboard
 
-A lightweight CRM / management tool for the Coral Canyon 3rd Ward Deacons Quorum (11-13 year olds) and their adult leaders. Replaces scattered spreadsheets and group texts with a single, role-aware home for the calendar, Sunday lessons, leader coverage, and announcements.
+A lightweight CRM / management tool for the Stone Ridge Ward Young Men (11-13 year olds) and their adult leaders. Replaces scattered spreadsheets and group texts with a single, role-aware home for the calendar, Sunday lessons, leader coverage, and announcements.
 
 ## Stack
 
@@ -62,11 +62,11 @@ npm run dev
 
 Sign in at [http://localhost:3000/login](http://localhost:3000/login) with:
 
-| Email                              | Role         | Password         |
-| ---------------------------------- | ------------ | ---------------- |
-| `advisor1@coralcanyon.local`       | adult_leader | `CoralCanyon!23` |
-| `youth1@coralcanyon.local`         | youth        | `CoralCanyon!23` |
-| `parent1@coralcanyon.local`        | general      | `CoralCanyon!23` |
+| Email                              | Role         | Password        |
+| ---------------------------------- | ------------ | --------------- |
+| `advisor1@stoneridge.local`        | adult_leader | `StoneRidge!23` |
+| `youth1@stoneridge.local`          | youth        | `StoneRidge!23` |
+| `parent1@stoneridge.local`         | general      | `StoneRidge!23` |
 
 ## Folder Structure
 

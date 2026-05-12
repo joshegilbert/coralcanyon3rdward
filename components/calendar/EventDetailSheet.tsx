@@ -4,11 +4,11 @@ import Link from "next/link";
 import { Clock, MapPin, NotebookText, Pencil, ShieldCheck } from "lucide-react";
 import {
   Sheet,
-  SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { ResponsiveSheetContent } from "@/components/ui/responsive-sheet";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -35,7 +35,7 @@ export function EventDetailSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md">
+      <ResponsiveSheetContent>
         <SheetHeader>
           <div className="flex items-center gap-2">
             <Badge variant="outline" className={cn("text-[10px]", colors.pill)}>
@@ -102,7 +102,7 @@ export function EventDetailSheet({
             </div>
           ) : null}
         </div>
-      </SheetContent>
+      </ResponsiveSheetContent>
     </Sheet>
   );
 }

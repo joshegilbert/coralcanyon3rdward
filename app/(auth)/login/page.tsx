@@ -1,7 +1,7 @@
 import { LoginForm } from "./LoginForm";
 
 export const metadata = {
-  title: "Sign in - Coral Canyon 3rd Ward",
+  title: "Sign in - Stone Ridge Ward",
 };
 
 export default function LoginPage() {

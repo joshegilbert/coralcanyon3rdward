@@ -44,7 +44,7 @@ function StatusButton({
       <button
         type="submit"
         className={cn(
-          "inline-flex h-7 items-center gap-1 rounded-md border px-2 text-xs font-medium transition-colors cursor-pointer",
+          "inline-flex h-10 w-full items-center justify-center gap-1 rounded-md border px-2 text-xs font-medium transition-colors cursor-pointer sm:h-7 sm:w-auto",
           active
             ? className
             : "border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -75,10 +75,10 @@ export function LeaderRsvpRow({ entry, allLeaders, totalLeaders }: LeaderRsvpRow
   }
 
   return (
-    <article className="rounded-lg border border-border bg-card p-4">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+    <article className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+      <div className="space-y-3 sm:flex sm:flex-wrap sm:items-start sm:justify-between sm:space-y-0 sm:gap-3">
         <div className="min-w-0 space-y-2">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline" className={cn("text-[10px]", colors.pill)}>
               {colors.label}
             </Badge>
@@ -87,8 +87,25 @@ export function LeaderRsvpRow({ entry, allLeaders, totalLeaders }: LeaderRsvpRow
                 Multi-day
               </Badge>
             ) : null}
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-medium",
+                understaffed
+                  ? "bg-rose-100 text-rose-900 ring-1 ring-rose-300 dark:bg-rose-950/40 dark:text-rose-200 dark:ring-rose-900/50"
+                  : "bg-emerald-100 text-emerald-900 ring-1 ring-emerald-300 dark:bg-emerald-950/40 dark:text-emerald-200 dark:ring-emerald-900/50",
+              )}
+            >
+              {understaffed ? (
+                <AlertTriangle className="h-3.5 w-3.5" />
+              ) : (
+                <Check className="h-3.5 w-3.5" />
+              )}
+              {attendingCount} of {totalLeaders}
+            </span>
           </div>
-          <h3 className="text-base font-semibold leading-tight">{event.title}</h3>
+          <h3 className="text-base font-semibold leading-tight">
+            {event.title}
+          </h3>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" />
@@ -103,50 +120,31 @@ export function LeaderRsvpRow({ entry, allLeaders, totalLeaders }: LeaderRsvpRow
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-2">
-          <div
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium",
-              understaffed
-                ? "bg-rose-100 text-rose-900 ring-1 ring-rose-300 dark:bg-rose-950/40 dark:text-rose-200 dark:ring-rose-900/50"
-                : "bg-emerald-100 text-emerald-900 ring-1 ring-emerald-300 dark:bg-emerald-950/40 dark:text-emerald-200 dark:ring-emerald-900/50",
-            )}
+        <div className="grid grid-cols-3 items-stretch gap-1.5 sm:flex sm:items-center sm:gap-1.5">
+          <StatusButton
+            eventId={event.id}
+            current={myStatus}
+            status="attending"
+            className="border-emerald-300 bg-emerald-100 text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-200"
           >
-            {understaffed ? (
-              <AlertTriangle className="h-3.5 w-3.5" />
-            ) : (
-              <Check className="h-3.5 w-3.5" />
-            )}
-            <span>
-              {attendingCount} of {totalLeaders} attending
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <StatusButton
-              eventId={event.id}
-              current={myStatus}
-              status="attending"
-              className="border-emerald-300 bg-emerald-100 text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-200"
-            >
-              <Check className="h-3 w-3" /> Attending
-            </StatusButton>
-            <StatusButton
-              eventId={event.id}
-              current={myStatus}
-              status="unavailable"
-              className="border-rose-300 bg-rose-100 text-rose-900 dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-200"
-            >
-              <X className="h-3 w-3" /> Out
-            </StatusButton>
-            <StatusButton
-              eventId={event.id}
-              current={myStatus}
-              status="undecided"
-              className="border-border bg-muted text-foreground"
-            >
-              <Minus className="h-3 w-3" /> Undecided
-            </StatusButton>
-          </div>
+            <Check className="h-3.5 w-3.5" /> In
+          </StatusButton>
+          <StatusButton
+            eventId={event.id}
+            current={myStatus}
+            status="unavailable"
+            className="border-rose-300 bg-rose-100 text-rose-900 dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-200"
+          >
+            <X className="h-3.5 w-3.5" /> Out
+          </StatusButton>
+          <StatusButton
+            eventId={event.id}
+            current={myStatus}
+            status="undecided"
+            className="border-border bg-muted text-foreground"
+          >
+            <Minus className="h-3.5 w-3.5" /> Maybe
+          </StatusButton>
         </div>
       </div>
 
@@ -172,7 +170,9 @@ export function LeaderRsvpRow({ entry, allLeaders, totalLeaders }: LeaderRsvpRow
                   status === "undecided" && "text-muted-foreground",
                 )}
               >
-                <span className={cn("inline-block size-2 rounded-full", dotColor)} />
+                <span
+                  className={cn("inline-block size-2 rounded-full", dotColor)}
+                />
                 {leaderInitials(l)}
                 {status === "undecided" ? (
                   <HelpCircle className="h-3 w-3 opacity-60" />

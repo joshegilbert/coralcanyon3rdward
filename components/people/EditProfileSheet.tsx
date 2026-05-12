@@ -4,12 +4,12 @@ import { useActionState, useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import {
   Sheet,
-  SheetContent,
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { ResponsiveSheetContent } from "@/components/ui/responsive-sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,7 +82,7 @@ export function EditProfileSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md">
+      <ResponsiveSheetContent>
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
           <SheetDescription>
@@ -205,7 +205,7 @@ export function EditProfileSheet({
             </div>
           </SheetFooter>
         </form>
-      </SheetContent>
+      </ResponsiveSheetContent>
     </Sheet>
   );
 }

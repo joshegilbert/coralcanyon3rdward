@@ -9,7 +9,7 @@ import {
 import { getEventsInRange } from "@/lib/queries/calendar";
 import { CalendarShell } from "@/components/calendar/CalendarShell";
 
-export const metadata = { title: "Calendar - Coral Canyon 3rd Ward" };
+export const metadata = { title: "Calendar - Stone Ridge Ward" };
 
 export default async function CalendarPage({
   searchParams,

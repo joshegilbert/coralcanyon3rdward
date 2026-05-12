@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { createClient } from "@/utils/supabase/server";
 import { classifySunday } from "@/lib/sunday";
 
-export const metadata = { title: "Sunday Program - Coral Canyon 3rd Ward" };
+export const metadata = { title: "Sunday Program - Stone Ridge Ward" };
 
 export default async function SundayProgramListPage() {
   const supabase = createClient(await cookies());
@@ -28,10 +28,10 @@ export default async function SundayProgramListPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       <div className="flex items-center gap-3">
-        <Sparkles className="h-6 w-6 text-amber-600" />
-        <h1 className="text-2xl font-semibold">Sunday Programs</h1>
+        <Sparkles className="h-5 w-5 text-amber-600 sm:h-6 sm:w-6" />
+        <h1 className="text-xl font-semibold sm:text-2xl">Sunday Programs</h1>
       </div>
-      <p className="text-sm text-muted-foreground">
+      <p className="text-xs text-muted-foreground sm:text-sm">
         Plan and follow this week&apos;s lesson. Adult leaders and youth can edit.
         Tap a Sunday to open the program; use the Present view during the lesson.
       </p>

@@ -62,18 +62,21 @@ export function PeopleDirectory({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-3xl space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">People</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold tracking-tight sm:text-2xl">
+            People
+          </h1>
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
             Adult leaders, youth, and parents. Invite new members, edit roles,
             and manage youth callings here.
           </p>
         </div>
-        <Button onClick={() => setInvite(true)} className="gap-1.5">
+        <Button onClick={() => setInvite(true)} className="h-10 gap-1.5 px-4">
           <Plus className="h-4 w-4" />
-          Invite person
+          <span className="hidden sm:inline">Invite person</span>
+          <span className="sm:hidden">Invite</span>
         </Button>
       </div>
 
@@ -86,7 +89,7 @@ export function PeopleDirectory({
           const Icon = meta.icon;
           return (
             <section key={role} className="space-y-3">
-              <div className="flex items-center gap-2">
+              <div className="sticky top-14 z-10 -mx-1 flex items-center gap-2 bg-background/95 px-1 py-1.5 backdrop-blur lg:top-16">
                 <Icon className="h-4 w-4 text-muted-foreground" />
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                   {meta.label}
@@ -174,10 +177,10 @@ function PersonRow({ entry, isSelf, onEdit, onCallings, onDelete }: PersonRowPro
     "?";
 
   return (
-    <li className="flex flex-wrap items-center gap-3 p-3 sm:p-4">
+    <li className="flex min-h-14 flex-wrap items-center gap-3 p-3 sm:p-4">
       <div
         className={cn(
-          "flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold uppercase",
+          "flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold uppercase",
           profile.avatar_color ?? "bg-muted text-foreground",
         )}
         style={
@@ -197,14 +200,16 @@ function PersonRow({ entry, isSelf, onEdit, onCallings, onDelete }: PersonRowPro
               You
             </Badge>
           ) : null}
-          {profile.email ? (
-            <span className="text-xs text-muted-foreground">{profile.email}</span>
-          ) : null}
         </div>
+        {profile.email ? (
+          <p className="mt-0.5 truncate text-xs text-muted-foreground">
+            {profile.email}
+          </p>
+        ) : null}
         <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
           {birthday ? <span>Birthday {birthday}</span> : null}
           {profile.role === "youth" && parents.length > 0 ? (
-            <span>
+            <span className="truncate">
               Parent(s):{" "}
               {parents
                 .map((p) => `${p.first_name ?? ""} ${p.last_name ?? ""}`.trim())
@@ -212,7 +217,7 @@ function PersonRow({ entry, isSelf, onEdit, onCallings, onDelete }: PersonRowPro
             </span>
           ) : null}
           {profile.role === "general" && children.length > 0 ? (
-            <span>
+            <span className="truncate">
               Child(ren):{" "}
               {children
                 .map((c) => `${c.first_name ?? ""} ${c.last_name ?? ""}`.trim())
@@ -232,22 +237,32 @@ function PersonRow({ entry, isSelf, onEdit, onCallings, onDelete }: PersonRowPro
             variant="outline"
             size="sm"
             onClick={onCallings}
-            className="gap-1.5"
+            className="h-10 gap-1.5 px-3 sm:h-7 sm:px-2.5"
           >
             <Sparkles className="h-3.5 w-3.5" />
-            Callings
+            <span className="hidden sm:inline">Callings</span>
           </Button>
         ) : null}
-        <Button variant="ghost" size="icon-sm" onClick={onEdit} aria-label="Edit">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onEdit}
+          aria-label="Edit"
+          className="h-10 w-10 sm:h-7 sm:w-7"
+        >
           <Pencil className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
-          size="icon-sm"
+          size="icon"
           onClick={onDelete}
           disabled={isSelf}
           aria-label="Delete"
-          className={cn(!isSelf && "text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/30")}
+          className={cn(
+            "h-10 w-10 sm:h-7 sm:w-7",
+            !isSelf &&
+              "text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/30",
+          )}
         >
           <Trash2 className="h-4 w-4" />
         </Button>

@@ -4,11 +4,11 @@ import { useState, useTransition } from "react";
 import { Loader2, Plus, X } from "lucide-react";
 import {
   Sheet,
-  SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { ResponsiveSheetContent } from "@/components/ui/responsive-sheet";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -64,7 +64,7 @@ export function ManageCallingsSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md">
+      <ResponsiveSheetContent>
         <SheetHeader>
           <SheetTitle>Callings for {entry.profile.first_name}</SheetTitle>
           <SheetDescription>
@@ -152,7 +152,7 @@ export function ManageCallingsSheet({
             )}
           </section>
         </div>
-      </SheetContent>
+      </ResponsiveSheetContent>
     </Sheet>
   );
 }

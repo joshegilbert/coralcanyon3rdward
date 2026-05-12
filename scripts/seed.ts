@@ -1,5 +1,5 @@
 /**
- * Seed the Coral Canyon 3rd Ward Supabase project with realistic dev data.
+ * Seed the Stone Ridge Ward Supabase project with realistic dev data.
  *
  * Run with:  npm run seed
  *
@@ -41,20 +41,20 @@ type SeedUser = {
   birth_date?: string;
 };
 
-const PASSWORD = "CoralCanyon!23";
+const PASSWORD = "StoneRidge!23";
 
 const SEED_USERS: SeedUser[] = [
-  { email: "advisor1@coralcanyon.local", password: PASSWORD, first_name: "Brother", last_name: "Johnson", role: "adult_leader" },
-  { email: "advisor2@coralcanyon.local", password: PASSWORD, first_name: "Brother", last_name: "Lee", role: "adult_leader" },
-  { email: "advisor3@coralcanyon.local", password: PASSWORD, first_name: "Brother", last_name: "Garcia", role: "adult_leader" },
-  { email: "youth1@coralcanyon.local", password: PASSWORD, first_name: "Aiden", last_name: "Parker", role: "youth", birth_date: birthdayInCurrentMonth(12, 1) },
-  { email: "youth2@coralcanyon.local", password: PASSWORD, first_name: "Beckham", last_name: "Reed", role: "youth", birth_date: birthdayInCurrentMonth(13, 7) },
-  { email: "youth3@coralcanyon.local", password: PASSWORD, first_name: "Caleb", last_name: "Stone", role: "youth", birth_date: birthdayNextMonth(11, 3) },
-  { email: "youth4@coralcanyon.local", password: PASSWORD, first_name: "Dax", last_name: "Whitman", role: "youth", birth_date: birthdayInCurrentMonth(11, 22) },
-  { email: "youth5@coralcanyon.local", password: PASSWORD, first_name: "Easton", last_name: "Vance", role: "youth", birth_date: birthdayNextMonth(12, 14) },
-  { email: "youth6@coralcanyon.local", password: PASSWORD, first_name: "Finn", last_name: "Holloway", role: "youth", birth_date: birthdayNextMonth(13, 28) },
-  { email: "parent1@coralcanyon.local", password: PASSWORD, first_name: "Sarah", last_name: "Parker", role: "general" },
-  { email: "parent2@coralcanyon.local", password: PASSWORD, first_name: "Michael", last_name: "Reed", role: "general" },
+  { email: "advisor1@stoneridge.local", password: PASSWORD, first_name: "Brother", last_name: "Johnson", role: "adult_leader" },
+  { email: "advisor2@stoneridge.local", password: PASSWORD, first_name: "Brother", last_name: "Lee", role: "adult_leader" },
+  { email: "advisor3@stoneridge.local", password: PASSWORD, first_name: "Brother", last_name: "Garcia", role: "adult_leader" },
+  { email: "youth1@stoneridge.local", password: PASSWORD, first_name: "Aiden", last_name: "Parker", role: "youth", birth_date: birthdayInCurrentMonth(12, 1) },
+  { email: "youth2@stoneridge.local", password: PASSWORD, first_name: "Beckham", last_name: "Reed", role: "youth", birth_date: birthdayInCurrentMonth(13, 7) },
+  { email: "youth3@stoneridge.local", password: PASSWORD, first_name: "Caleb", last_name: "Stone", role: "youth", birth_date: birthdayNextMonth(11, 3) },
+  { email: "youth4@stoneridge.local", password: PASSWORD, first_name: "Dax", last_name: "Whitman", role: "youth", birth_date: birthdayInCurrentMonth(11, 22) },
+  { email: "youth5@stoneridge.local", password: PASSWORD, first_name: "Easton", last_name: "Vance", role: "youth", birth_date: birthdayNextMonth(12, 14) },
+  { email: "youth6@stoneridge.local", password: PASSWORD, first_name: "Finn", last_name: "Holloway", role: "youth", birth_date: birthdayNextMonth(13, 28) },
+  { email: "parent1@stoneridge.local", password: PASSWORD, first_name: "Sarah", last_name: "Parker", role: "general" },
+  { email: "parent2@stoneridge.local", password: PASSWORD, first_name: "Michael", last_name: "Reed", role: "general" },
 ];
 
 function birthdayInCurrentMonth(age: number, day: number) {
@@ -99,7 +99,6 @@ async function upsertUsers() {
       userId = data.user.id;
     }
 
-    // Set role + name + birth_date via profile upsert
     const { error: profileErr } = await supabase.from("profiles").upsert(
       {
         id: userId,
@@ -148,10 +147,10 @@ async function assignCallings(
   console.log("» Assigning callings...");
   await supabase.from("calling_assignments").delete().neq("id", "00000000-0000-0000-0000-000000000000");
   const assignments = [
-    { email: "youth1@coralcanyon.local", slug: "president" },
-    { email: "youth2@coralcanyon.local", slug: "first-counselor" },
-    { email: "youth3@coralcanyon.local", slug: "second-counselor" },
-    { email: "youth4@coralcanyon.local", slug: "secretary" },
+    { email: "youth1@stoneridge.local", slug: "president" },
+    { email: "youth2@stoneridge.local", slug: "first-counselor" },
+    { email: "youth3@stoneridge.local", slug: "second-counselor" },
+    { email: "youth4@stoneridge.local", slug: "secretary" },
   ];
   for (const a of assignments) {
     const profile_id = userIds.get(a.email);
@@ -245,14 +244,13 @@ async function seedLeaderRsvps(
     .delete()
     .neq("id", "00000000-0000-0000-0000-000000000000");
   const sundays = events.filter((e) => e.type === "sunday_school" || e.type === "quorum_meeting");
-  const advisor1 = userIds.get("advisor1@coralcanyon.local")!;
-  const advisor2 = userIds.get("advisor2@coralcanyon.local")!;
-  const advisor3 = userIds.get("advisor3@coralcanyon.local")!;
+  const advisor1 = userIds.get("advisor1@stoneridge.local")!;
+  const advisor2 = userIds.get("advisor2@stoneridge.local")!;
+  const advisor3 = userIds.get("advisor3@stoneridge.local")!;
 
   const rsvps: { event_id: string; leader_id: string; status: "attending" | "unavailable" | "undecided" }[] = [];
   sundays.forEach((s, idx) => {
     if (idx === 1) {
-      // intentional under-staffed Sunday: only one attending
       rsvps.push({ event_id: s.id, leader_id: advisor1, status: "attending" });
       rsvps.push({ event_id: s.id, leader_id: advisor2, status: "unavailable" });
       rsvps.push({ event_id: s.id, leader_id: advisor3, status: "unavailable" });
@@ -277,12 +275,12 @@ async function seedAnnouncements(userIds: Map<string, string>) {
     .from("announcements")
     .delete()
     .neq("id", "00000000-0000-0000-0000-000000000000");
-  const advisor1 = userIds.get("advisor1@coralcanyon.local")!;
-  const advisor2 = userIds.get("advisor2@coralcanyon.local")!;
+  const advisor1 = userIds.get("advisor1@stoneridge.local")!;
+  const advisor2 = userIds.get("advisor2@stoneridge.local")!;
   const announcements = [
     {
       author_id: advisor1,
-      body: "Welcome to the new Deacons Quorum dashboard! Sign up, mark your Sundays, and let's have a great quarter.",
+      body: "Welcome to the new Young Men dashboard! Sign up, mark your Sundays, and let's have a great quarter.",
     },
     {
       author_id: advisor2,
@@ -324,12 +322,12 @@ async function seedSundayProgram(
     .single();
   if (progErr || !program) throw new Error(`Program: ${progErr?.message}`);
 
-  const advisor1 = userIds.get("advisor1@coralcanyon.local")!;
-  const advisor2 = userIds.get("advisor2@coralcanyon.local")!;
-  const youth1 = userIds.get("youth1@coralcanyon.local")!;
-  const youth2 = userIds.get("youth2@coralcanyon.local")!;
-  const youth3 = userIds.get("youth3@coralcanyon.local")!;
-  const youth4 = userIds.get("youth4@coralcanyon.local")!;
+  const advisor1 = userIds.get("advisor1@stoneridge.local")!;
+  const advisor2 = userIds.get("advisor2@stoneridge.local")!;
+  const youth1 = userIds.get("youth1@stoneridge.local")!;
+  const youth2 = userIds.get("youth2@stoneridge.local")!;
+  const youth3 = userIds.get("youth3@stoneridge.local")!;
+  const youth4 = userIds.get("youth4@stoneridge.local")!;
 
   const blocks = [
     { type: "presiding", label: "Presiding", assignee_id: advisor1, position: 1 },
@@ -347,7 +345,7 @@ async function seedSundayProgram(
 }
 
 async function main() {
-  console.log("Seeding Coral Canyon 3rd Ward...\n");
+  console.log("Seeding Stone Ridge Ward...\n");
   const users = await upsertUsers();
   const callings = await upsertCallings();
   await assignCallings(users, callings);
@@ -355,7 +353,7 @@ async function main() {
   await seedLeaderRsvps(events, users);
   await seedAnnouncements(users);
   await seedSundayProgram(events, users);
-  console.log("\nDone. Sign in at /login with advisor1@coralcanyon.local / CoralCanyon!23");
+  console.log("\nDone. Sign in at /login with advisor1@stoneridge.local / StoneRidge!23");
 }
 
 main().catch((err) => {

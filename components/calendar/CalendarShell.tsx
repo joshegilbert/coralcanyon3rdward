@@ -87,13 +87,13 @@ export function CalendarShell({
   return (
     <div className="space-y-4">
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2">
           <div className="flex items-center rounded-lg border border-border bg-card">
             <Button
               variant="ghost"
               size="icon-sm"
               onClick={handlePrev}
-              className="h-8 w-8 rounded-r-none"
+              className="h-9 w-9 rounded-r-none md:h-8 md:w-8"
               aria-label="Previous"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -101,7 +101,7 @@ export function CalendarShell({
             <button
               type="button"
               onClick={handleToday}
-              className="border-x border-border px-3 py-1 text-xs font-medium hover:bg-accent cursor-pointer"
+              className="border-x border-border px-3 py-1.5 text-xs font-medium hover:bg-accent cursor-pointer md:py-1"
             >
               Today
             </button>
@@ -109,13 +109,15 @@ export function CalendarShell({
               variant="ghost"
               size="icon-sm"
               onClick={handleNext}
-              className="h-8 w-8 rounded-l-none"
+              className="h-9 w-9 rounded-l-none md:h-8 md:w-8"
               aria-label="Next"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
-          <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
+          <h2 className="truncate text-base font-semibold tracking-tight sm:text-xl">
+            {title}
+          </h2>
           {isPending ? (
             <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
           ) : null}
@@ -126,7 +128,9 @@ export function CalendarShell({
             <TabsList>
               <TabsTrigger value="month">Month</TabsTrigger>
               <TabsTrigger value="week">Week</TabsTrigger>
-              <TabsTrigger value="year">Year</TabsTrigger>
+              <TabsTrigger value="year" className="hidden md:inline-flex">
+                Year
+              </TabsTrigger>
             </TabsList>
           </Tabs>
           {role === "adult_leader" ? (
@@ -138,7 +142,8 @@ export function CalendarShell({
               )}
             >
               <Plus className="h-3.5 w-3.5" />
-              New event
+              <span className="hidden sm:inline">New event</span>
+              <span className="sm:hidden">New</span>
             </Link>
           ) : null}
         </div>
