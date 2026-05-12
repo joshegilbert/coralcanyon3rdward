@@ -4,6 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { X } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
+import { requireUser } from "@/lib/auth";
+import { PresentBlock } from "@/components/sunday-program/PresentBlock";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +15,7 @@ export default async function SundayProgramPresentPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const session = await requireUser();
   const supabase = createClient(await cookies());
 
   type ProgramJoined = {
@@ -58,6 +61,9 @@ export default async function SundayProgramPresentPage({
 
   const event = Array.isArray(program.event) ? program.event[0] : program.event;
   const eventDate = event ? new Date(event.start_at) : null;
+  const canEdit =
+    session.profile?.role === "adult_leader" ||
+    session.profile?.role === "youth";
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-gradient-to-br from-amber-50 via-white to-sky-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
@@ -80,6 +86,11 @@ export default async function SundayProgramPresentPage({
                 {program.theme}
               </p>
             ) : null}
+            {canEdit ? (
+              <p className="mt-3 text-xs text-muted-foreground">
+                Tap a block to mark it complete.
+              </p>
+            ) : null}
           </div>
           <Link
             href={`/sunday-program/${id}`}
@@ -98,33 +109,20 @@ export default async function SundayProgramPresentPage({
             const name = assignee
               ? `${assignee.first_name} ${assignee.last_name}`
               : "Unassigned";
+            const isAdult = assignee?.role === "adult_leader";
             return (
-              <li
+              <PresentBlock
                 key={b.id}
-                className="flex items-start gap-5 rounded-2xl bg-card p-6 shadow-sm ring-1 ring-border"
-              >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-xl font-bold tabular-nums text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
-                  {idx + 1}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-2xl font-semibold leading-tight">
-                    {b.label}
-                  </div>
-                  <div className="mt-1 text-lg text-muted-foreground">
-                    {name}
-                    {assignee?.role === "adult_leader" ? (
-                      <span className="ml-2 rounded-md bg-sky-100 px-1.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-sky-900 dark:bg-sky-950/40 dark:text-sky-200">
-                        Adult Advisor
-                      </span>
-                    ) : null}
-                  </div>
-                  {b.notes ? (
-                    <p className="mt-2 text-base text-muted-foreground">
-                      {b.notes}
-                    </p>
-                  ) : null}
-                </div>
-              </li>
+                programId={id}
+                blockId={b.id}
+                index={idx}
+                label={b.label}
+                name={name}
+                isAdult={isAdult}
+                notes={b.notes}
+                completedAt={b.completed_at}
+                canEdit={canEdit}
+              />
             );
           })}
         </ol>

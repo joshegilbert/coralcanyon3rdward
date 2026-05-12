@@ -20,6 +20,7 @@ export interface NextSundayData {
   rsvps: (LeaderRsvp & { leader: Profile | null })[];
   attendingCount: number;
   totalLeaders: number;
+  rsvpRequired: boolean;
 }
 
 export interface UpcomingSundayData {
@@ -28,6 +29,7 @@ export interface UpcomingSundayData {
   event: EventRow | null;
   myRsvpStatus: "attending" | "unavailable" | "undecided";
   attendingCount: number;
+  rsvpRequired: boolean;
 }
 
 export interface AnnouncementWithAuthor extends Announcement {
@@ -206,6 +208,7 @@ export async function getDashboardData(
       event,
       myRsvpStatus: mine?.status ?? "undecided",
       attendingCount,
+      rsvpRequired: event?.rsvp_required ?? false,
     };
   });
 
@@ -221,6 +224,7 @@ export async function getDashboardData(
     rsvps: nextSundayRsvps,
     attendingCount: next.attendingCount,
     totalLeaders: allLeaders.length,
+    rsvpRequired: next.event?.rsvp_required ?? false,
   };
 
   // Birthdays this month
@@ -258,7 +262,7 @@ export async function getDashboardData(
   );
 
   const underStaffedSundays = sundayCards.filter(
-    (s) => s.event && s.attendingCount < 2,
+    (s) => s.event && s.rsvpRequired && s.attendingCount < 2,
   ).length;
 
   return {

@@ -6,7 +6,8 @@ import type { NextSundayData } from "@/lib/queries/dashboard";
 
 export function HeroNextSunday({ data }: { data: NextSundayData }) {
   const isQuorum = data.type === "quorum_meeting";
-  const understaffed = data.event && data.attendingCount < 2;
+  const understaffed =
+    data.event && data.rsvpRequired && data.attendingCount < 2;
 
   return (
     <Card
@@ -50,27 +51,36 @@ export function HeroNextSunday({ data }: { data: NextSundayData }) {
           ) : null}
         </div>
         <div className="flex flex-col items-start gap-3 sm:items-end">
-          <div
-            className={cn(
-              "flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium",
-              understaffed
-                ? "bg-rose-100 text-rose-900 ring-1 ring-rose-300 dark:bg-rose-950/40 dark:text-rose-200 dark:ring-rose-900/50"
-                : "bg-card text-foreground ring-1 ring-border",
-            )}
-          >
-            {understaffed ? (
-              <AlertTriangle className="h-4 w-4" />
-            ) : (
+          {data.event && data.rsvpRequired ? (
+            <>
+              <div
+                className={cn(
+                  "flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium",
+                  understaffed
+                    ? "bg-rose-100 text-rose-900 ring-1 ring-rose-300 dark:bg-rose-950/40 dark:text-rose-200 dark:ring-rose-900/50"
+                    : "bg-card text-foreground ring-1 ring-border",
+                )}
+              >
+                {understaffed ? (
+                  <AlertTriangle className="h-4 w-4" />
+                ) : (
+                  <Users className="h-4 w-4" />
+                )}
+                <span>
+                  {data.attendingCount} of {data.totalLeaders} leaders attending
+                </span>
+              </div>
+              {understaffed ? (
+                <p className="text-xs font-medium text-rose-700 dark:text-rose-300">
+                  Need at least 2 leaders for two-deep coverage
+                </p>
+              ) : null}
+            </>
+          ) : data.event ? (
+            <div className="flex items-center gap-2 rounded-lg bg-card px-4 py-3 text-sm font-medium text-muted-foreground ring-1 ring-border">
               <Users className="h-4 w-4" />
-            )}
-            <span>
-              {data.attendingCount} of {data.totalLeaders} leaders attending
-            </span>
-          </div>
-          {understaffed ? (
-            <p className="text-xs font-medium text-rose-700 dark:text-rose-300">
-              Need at least 2 leaders for two-deep coverage
-            </p>
+              <span>No leader RSVP required</span>
+            </div>
           ) : null}
         </div>
       </CardContent>

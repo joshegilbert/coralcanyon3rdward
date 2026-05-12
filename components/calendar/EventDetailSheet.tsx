@@ -1,6 +1,7 @@
 "use client";
 
-import { Clock, MapPin, NotebookText } from "lucide-react";
+import Link from "next/link";
+import { Clock, MapPin, NotebookText, Pencil, ShieldCheck } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -9,24 +10,28 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { eventColors, eventInterval, fmt, isMultiDay } from "@/lib/calendar";
-import type { EventRow } from "@/lib/types";
+import type { EventRow, Role } from "@/lib/types";
 
 interface EventDetailSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   event: EventRow | null;
+  role?: Role;
 }
 
 export function EventDetailSheet({
   open,
   onOpenChange,
   event,
+  role,
 }: EventDetailSheetProps) {
   if (!event) return null;
   const colors = eventColors(event.type);
   const { start, end } = eventInterval(event);
+  const canEdit = role === "adult_leader";
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -72,7 +77,30 @@ export function EventDetailSheet({
                 </p>
               </div>
             ) : null}
+            <div className="flex items-start gap-2 text-muted-foreground">
+              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>
+                {event.rsvp_required
+                  ? "Two-deep leader coverage required"
+                  : "No leader RSVP required"}
+              </span>
+            </div>
           </div>
+
+          {canEdit ? (
+            <div className="border-t border-border pt-4">
+              <Link
+                href={`/calendar/${event.id}/edit`}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "gap-1.5 cursor-pointer",
+                )}
+              >
+                <Pencil className="h-3.5 w-3.5" />
+                Edit event
+              </Link>
+            </div>
+          ) : null}
         </div>
       </SheetContent>
     </Sheet>

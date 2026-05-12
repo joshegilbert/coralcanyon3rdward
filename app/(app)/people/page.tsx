@@ -1,16 +1,22 @@
-import { Users } from "lucide-react";
-import { PagePlaceholder } from "@/components/shared/PagePlaceholder";
+import { cookies } from "next/headers";
 import { requireAdultLeader } from "@/lib/auth";
+import { createClient } from "@/utils/supabase/server";
+import { getDirectory } from "@/lib/queries/people";
+import { PeopleDirectory } from "@/components/people/PeopleDirectory";
 
 export const metadata = { title: "People - Coral Canyon 3rd Ward" };
 
 export default async function PeoplePage() {
-  await requireAdultLeader();
+  const { user } = await requireAdultLeader();
+  const supabase = createClient(await cookies());
+  const directory = await getDirectory(supabase);
+
   return (
-    <PagePlaceholder
-      icon={Users}
-      title="People & Callings"
-      description="Manage roles (adult leader, youth, general) and assign callings like President, First Counselor, Sports Captain, or any custom calling you define."
+    <PeopleDirectory
+      byRole={directory.byRole}
+      allYouth={directory.allYouth}
+      allCallings={directory.allCallings}
+      currentUserId={user.id}
     />
   );
 }

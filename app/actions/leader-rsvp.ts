@@ -35,4 +35,5 @@ export async function setLeaderRsvp(formData: FormData): Promise<void> {
     .upsert(values, { onConflict: "event_id,leader_id" });
 
   revalidatePath("/");
+  revalidatePath("/leaders/rsvp");
 }

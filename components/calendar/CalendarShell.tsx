@@ -1,10 +1,11 @@
 "use client";
 
 import { useCallback, useMemo, useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 import { ChevronLeft, ChevronRight, Loader2, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Tabs,
   TabsList,
@@ -129,10 +130,16 @@ export function CalendarShell({
             </TabsList>
           </Tabs>
           {role === "adult_leader" ? (
-            <Button size="sm" disabled className="gap-1.5">
+            <Link
+              href={`/calendar/new?date=${formatDateParam(focus)}`}
+              className={cn(
+                buttonVariants({ size: "sm" }),
+                "gap-1.5 cursor-pointer",
+              )}
+            >
               <Plus className="h-3.5 w-3.5" />
               New event
-            </Button>
+            </Link>
           ) : null}
         </div>
       </header>
@@ -180,6 +187,7 @@ export function CalendarShell({
         open={!!selectedEventId}
         onOpenChange={(open) => !open && setSelectedEventId(null)}
         event={selectedEvent}
+        role={role}
       />
     </div>
   );

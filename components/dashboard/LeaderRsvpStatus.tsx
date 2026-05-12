@@ -78,7 +78,15 @@ export function LeaderRsvpStatus({ sundays }: { sundays: UpcomingSundayData[] })
                     {isQuorum ? "Quorum" : "Sunday School"}
                   </span>
                 </div>
-                {!noEvent ? (
+                {noEvent ? (
+                  <p className="text-xs italic text-muted-foreground">
+                    no event yet
+                  </p>
+                ) : !s.rsvpRequired ? (
+                  <p className="text-xs italic text-muted-foreground">
+                    No RSVP required
+                  </p>
+                ) : (
                   <p className="text-xs text-muted-foreground">
                     {s.attendingCount} attending
                     {s.attendingCount < 2 ? (
@@ -87,13 +95,9 @@ export function LeaderRsvpStatus({ sundays }: { sundays: UpcomingSundayData[] })
                       </span>
                     ) : null}
                   </p>
-                ) : (
-                  <p className="text-xs italic text-muted-foreground">
-                    no event yet
-                  </p>
                 )}
               </div>
-              {s.event ? (
+              {s.event && s.rsvpRequired ? (
                 <div className="flex items-center gap-1.5">
                   <StatusButton
                     eventId={s.event.id}

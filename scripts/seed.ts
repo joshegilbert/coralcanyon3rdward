@@ -197,6 +197,7 @@ async function upsertEvents() {
       start_at: formatISO(d),
       end_at: formatISO(setMinutes(setHours(d, 12), 0)),
       location: "Chapel",
+      rsvp_required: sundayTypes[i] !== "sunday_school",
     })),
     {
       title: "Mid-week Activity: Service Knot-Tying",
@@ -204,6 +205,7 @@ async function upsertEvents() {
       start_at: formatISO(wednesdayActivity),
       end_at: formatISO(setMinutes(setHours(wednesdayActivity, 20), 30)),
       location: "Cultural Hall",
+      rsvp_required: true,
     },
     {
       title: "Summer Camp",
@@ -212,6 +214,7 @@ async function upsertEvents() {
       end_at: formatISO(campEnd),
       location: "Pine Valley",
       description: "Wed-Sat camp with hiking, service, and devotionals.",
+      rsvp_required: true,
     },
     {
       title: "Community Service Project",
@@ -219,6 +222,7 @@ async function upsertEvents() {
       start_at: formatISO(serviceDate),
       end_at: formatISO(setMinutes(setHours(serviceDate, 12), 0)),
       location: "Stake Center",
+      rsvp_required: true,
     },
   ];
 
